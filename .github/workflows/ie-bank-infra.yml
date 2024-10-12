@@ -25,7 +25,6 @@ jobs:
       run: az bicep build --file ./main.bicep
 
   deploy-dev:
-#   if: github.ref == 'refs/heads/uat'
     runs-on: ubuntu-latest
     needs: build
     environment:
@@ -41,8 +40,21 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      # Deploy Bicep file
+      # Check if a deployment is active
+    - name: Check for active deployment
+      id: check_deployment
+      run: |
+        az deployment group show --name ${{ env.USER_ALIAS }} --resource-group ${{ env.RESOURCE_GROUP_DEV }} --query "properties.provisioningState" -o tsv > deployment_status.txt
+        if grep -q "Running" deployment_status.txt; then
+          echo "An active deployment is running. Skipping new deployment."
+          exit 1
+        else
+          echo "No active deployment. Proceeding with deployment."
+        fi
+
+      # Deploy Bicep file only if no active deployment
     - name: deploy
+      if: success()
       uses: azure/arm-deploy@v1
       with:
         subscriptionId: ${{ env.SUBSCRIPTION_ID_DEV }}
@@ -52,7 +64,6 @@ jobs:
         deploymentName: ${{ env.USER_ALIAS }}
     
   deploy-uat:
-#   if: github.ref == 'refs/heads/dev'
     runs-on: ubuntu-latest
     needs: build
     environment:
