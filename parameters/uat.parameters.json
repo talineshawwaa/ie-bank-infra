@@ -1,0 +1,27 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "environmentType": {
+            "value": "nonprod"
+        },
+        "postgreSQLServerName": {
+            "value": "talineshawwa-dbsrv-uat"
+        },
+        "postgreSQLDatabaseName": {
+            "value": "talineshawwa-db-uat"
+        },
+        "appServicePlanName": {
+            "value": "talineshawwa-asp-uat"
+        },
+        "appServiceAPIAppName": {
+            "value": "talineshawwa-be-uat"
+        },
+        "appServiceAppName": {
+            "value": "talineshawwa-fe-uat"
+        },
+        "location": {
+            "value": "North Europe"
+        }
+    }
+}
