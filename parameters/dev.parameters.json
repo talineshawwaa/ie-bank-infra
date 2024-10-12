@@ -6,19 +6,19 @@
             "value": "nonprod"
         },
         "postgreSQLServerName": {
-            "value": "jseijas-dbsrv-dev"
+            "value": "talineshawwa-dbsrv-dev"
         },
         "postgreSQLDatabaseName": {
-            "value": "jseijas-db-dev"
+            "value": "talineshawwa-db-dev"
         },
         "appServicePlanName": {
-            "value": "jseijas-asp-dev"
+            "value": "talineshawwa-asp-dev"
         },
         "appServiceAPIAppName": {
-            "value": "jseijas-be-dev"
+            "value": "talineshawwa-be-dev"
         },
         "appServiceAppName": {
-            "value": "jseijas-fe-dev"
+            "value": "talineshawwa-fe-dev"
         },
         "location": {
             "value": "North Europe"
