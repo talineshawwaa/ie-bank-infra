@@ -67,7 +67,6 @@ jobs:
         template: ./main.bicep
         parameters: ./parameters/dev.parameters.json appServiceAPIEnvVarENV=${{ vars.ENV }} appServiceAPIEnvVarDBHOST=${{ vars.DBHOST }} appServiceAPIEnvVarDBNAME=${{ vars.DBNAME }} appServiceAPIEnvVarDBPASS=${{ secrets.DBPASS }} appServiceAPIDBHostDBUSER=${{ secrets.DBUSER }} appServiceAPIDBHostFLASK_APP=${{ vars.FLASK_APP }} appServiceAPIDBHostFLASK_DEBUG=${{ vars.FLASK_DEBUG }}
         deploymentName: ${{ env.USER_ALIAS }}
-        deploymentMode: Complete  # Force deployment despite active one
 
   deploy-uat:
     runs-on: ubuntu-latest
@@ -107,4 +106,3 @@ jobs:
         template: ./main.bicep
         parameters: ./parameters/uat.parameters.json appServiceAPIEnvVarENV=${{ vars.ENV }} appServiceAPIEnvVarDBHOST=${{ vars.DBHOST }} appServiceAPIEnvVarDBNAME=${{ vars.DBNAME }} appServiceAPIEnvVarDBPASS=${{ secrets.DBPASS }} appServiceAPIDBHostDBUSER=${{ secrets.DBUSER }} appServiceAPIDBHostFLASK_APP=${{ vars.FLASK_APP }} appServiceAPIDBHostFLASK_DEBUG=${{ vars.FLASK_DEBUG }}
         deploymentName: ${{ env.USER_ALIAS }}
-        deploymentMode: Complete  # Force deployment despite active one
