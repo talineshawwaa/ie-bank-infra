@@ -6,8 +6,8 @@ on:
     branches:
       - main
   push:
-    branches-ignore:
-      - main
+    branches:
+      - '*'
     paths-ignore:
       - 'scripts/**'
 
@@ -21,8 +21,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+
       # Checkout code
-    - uses: actions/checkout@main
+    - uses: actions/checkout@v3
 
       # Lint Bicep code
     - name: Run Bicep linter
@@ -42,8 +43,9 @@ jobs:
       name: 'Development'
 
     steps:
+
       # Checkout code
-    - uses: actions/checkout@main
+    - uses: actions/checkout@v3
 
     - name: Download Bicep build artifact
       uses: actions/download-artifact@v4
@@ -66,7 +68,7 @@ jobs:
         deploymentName: ${{ env.USER_ALIAS }}-dev
 
   deploy-uat:
-    if: (github.event_name == 'pull_request' && github.base_ref == 'refs/heads/main') || github.event_name == 'workflow_dispatch'
+    if: github.event.pull_request.base.ref == 'main' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     needs: build
     environment:
@@ -74,7 +76,7 @@ jobs:
 
     steps:
       # Checkout code
-    - uses: actions/checkout@main
+    - uses: actions/checkout@v3
 
     - name: Download Bicep build artifact
       uses: actions/download-artifact@v4
@@ -86,18 +88,6 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      # Create Azure PostgreSQL Flexible Server for UAT
-    - name: Create PostgreSQL Flexible Server
-      run: |
-        az postgres flexible-server create --resource-group ${{ env.RESOURCE_GROUP_UAT }} \
-          --name talineshawwa-uat-db --sku-name Standard_B1ms --tier Burstable
-
-      # Create Azure App Service Plan for Linux for UAT
-    - name: Create App Service Plan
-      run: |
-        az appservice plan create --name talineshawwa-uat-app-plan \
-          --resource-group ${{ env.RESOURCE_GROUP_UAT }} --sku B1 --is-linux
-    
       # Deploy Bicep file only if no active deployment
     - name: deploy to uat
       uses: azure/arm-deploy@v2
