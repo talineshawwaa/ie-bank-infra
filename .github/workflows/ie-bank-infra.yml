@@ -6,8 +6,8 @@ on:
     branches:
       - main
   push:
-    branches:
-      - '*'
+    branches-ignore:
+      - main
     paths-ignore:
       - 'scripts/**'
 
@@ -21,7 +21,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-
       # Checkout code
     - uses: actions/checkout@main
 
@@ -43,7 +42,6 @@ jobs:
       name: 'Development'
 
     steps:
-
       # Checkout code
     - uses: actions/checkout@main
 
@@ -88,6 +86,18 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+      # Create Azure PostgreSQL Flexible Server for UAT
+    - name: Create PostgreSQL Flexible Server
+      run: |
+        az postgres flexible-server create --resource-group ${{ env.RESOURCE_GROUP_UAT }} \
+          --name talineshawwa-uat-db --sku-name Standard_B1ms --tier Burstable
+
+      # Create Azure App Service Plan for Linux for UAT
+    - name: Create App Service Plan
+      run: |
+        az appservice plan create --name talineshawwa-uat-app-plan \
+          --resource-group ${{ env.RESOURCE_GROUP_UAT }} --sku B1 --is-linux
+    
       # Deploy Bicep file only if no active deployment
     - name: deploy to uat
       uses: azure/arm-deploy@v2
