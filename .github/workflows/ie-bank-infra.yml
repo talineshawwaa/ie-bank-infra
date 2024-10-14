@@ -23,7 +23,7 @@ jobs:
     steps:
 
       # Checkout code
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@main
 
       # Lint Bicep code
     - name: Run Bicep linter
@@ -45,7 +45,7 @@ jobs:
     steps:
 
       # Checkout code
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@main
 
     - name: Download Bicep build artifact
       uses: actions/download-artifact@v4
@@ -76,7 +76,7 @@ jobs:
 
     steps:
       # Checkout code
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@main
 
     - name: Download Bicep build artifact
       uses: actions/download-artifact@v4
